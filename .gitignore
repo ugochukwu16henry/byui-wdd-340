@@ -1,5 +1,5 @@
 # Each item listed in this file will be ignored by git
-# and will not be uploaded to github. The blank lines
+# and will not be uploaded to github. The blank linesS
 # and comments are unnecessary, but included for 
 # clarification.
 
@@ -14,3 +14,4 @@ node_modules
 
 # .DS_Store is only for Mac users
 **/.DS_Store
+.README.md
