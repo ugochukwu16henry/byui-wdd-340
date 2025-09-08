@@ -1,16 +1,3 @@
-
-<% const d=new Date(); 
-   const year=d.getFullYear();
-%>
-
-    <footer class="site-footer">
-        <p>&copy; <%= year %>, CSE 340 App</p>
-        <p id="last-modified"></p>
-    </footer>
-
-    <script>
-        // Show last modified date in the footer
-        const lastModified = new Date(document.lastModified);
-        document.getElementById("last-modified").textContent =
-            "Last Modified: " + lastModified.toLocaleDateString();
-    </script>
+<footer>
+    <p>&copy; <%= new Date().getFullYear() %>, CSE 340 App</p>
+</footer>
