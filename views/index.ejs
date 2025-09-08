@@ -1,54 +1,63 @@
-<% layout('layouts/layout') %>
+<%- include("partials/head") %>
+    <%- include("partials/header") %>
+        <%- include("partials/nav") %>
 
-    <section class="hero">
-        <h2>Welcome to CSE Motors!</h2>
-        <div class="hero-content">
-            <div class="hero-text">
-                <h3>DMC Delorean</h3>
-                <ul>
-                    <li>3 Cup holders</li>
-                    <li>Superman doors</li>
-                    <li>Fuzzy dice!</li>
-                </ul>
-                <a href="#" class="btn-primary">Own Today</a>
-            </div>
-            <div class="hero-image">
-                <img src="/public/images/vehicles/delorean.jpg" alt="DMC Delorean car">
-            </div>
-        </div>
-    </section>
+            <main>
+                <h1>Welcome to CSE Motors!</h1>
 
-    <section class="features">
-        <div class="upgrades">
-            <h3>Delorean Upgrades</h3>
-            <ul class="upgrade-list">
-                <li>
-                    <img src="/public/images/upgrades/flux-cap.png" alt="Flux Capacitor">
-                    <a href="#">Flux Capacitor</a>
-                </li>
-                <li>
-                    <img src="/public/images/upgrades/flame.jpg" alt="Flame Decals">
-                    <a href="#">Flame Decals</a>
-                </li>
-                <li>
-                    <img src="/public/images/upgrades/bumper_sticker.jpg" alt="Bumper Stickers">
-                    <a href="#">Bumper Stickers</a>
-                </li>
-                <li>
-                    <img src="/public/images/upgrades/hub-cap.jpg" alt="Hub Caps">
-                    <a href="#">Hub Caps</a>
-                </li>
-            </ul>
-        </div>
+                <!-- Hero Section -->
+                <section class="hero">
+                    <div class="hero-text">
+                        <h2>DMC Delorean</h2>
+                        <ul>
+                            <li>3 Cup holders</li>
+                            <li>Superman doors</li>
+                            <li>Fuzzy dice!</li>
+                        </ul>
+                        <a href="#" class="btn">Own Today</a>
+                    </div>
+                    <div class="hero-img">
+                        <img src="/public/images/vehicles/delorean.jpg" alt="DMC Delorean">
+                    </div>
+                </section>
 
-        <div class="reviews">
-            <h3>DMC Delorean Reviews</h3>
-            <ul>
-                <li>"So fast it's almost like traveling in time." (4/5)</li>
-                <li>"Coolest ride on the road." (4/5)</li>
-                <li>"I'm feeling McFly!" (5/5)</li>
-                <li>"The most futuristic ride of our day." (4.5/5)</li>
-                <li>"80's livin and lovin it!" (5/5)</li>
-            </ul>
-        </div>
-    </section>
+                <!-- Upgrades & Reviews -->
+                <section class="content">
+                    <!-- Upgrades -->
+                    <div class="upgrades">
+                        <h2>Delorean Upgrades</h2>
+                        <div class="upgrade-grid">
+                            <div class="upgrade-item">
+                                <img src="/public/images/upgrades/flux-cap.png" alt="Flux Capacitor">
+                                <a href="#">Flux Capacitor</a>
+                            </div>
+                            <div class="upgrade-item">
+                                <img src="/public/images/upgrades/flame.jpg" alt="Flame Decals">
+                                <a href="#">Flame Decals</a>
+                            </div>
+                            <div class="upgrade-item">
+                                <img src="/public/images/upgrades/bumper_sticker.jpg" alt="Bumper Stickers">
+                                <a href="#">Bumper Stickers</a>
+                            </div>
+                            <div class="upgrade-item">
+                                <img src="/public/images/upgrades/hub-cap.jpg" alt="Hub Caps">
+                                <a href="#">Hub Caps</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reviews -->
+                    <div class="reviews">
+                        <h2>DMC Delorean Reviews</h2>
+                        <ul>
+                            <li>"So fast it's almost like traveling in time." (4/5)</li>
+                            <li>"Coolest ride on the road." (4/5)</li>
+                            <li>"I'm feeling McFly!" (5/5)</li>
+                            <li>"The most futuristic ride of our day." (4.5/5)</li>
+                            <li>"80's livin and I love it!" (5/5)</li>
+                        </ul>
+                    </div>
+                </section>
+            </main>
+
+            <%- include("partials/footer") %>
