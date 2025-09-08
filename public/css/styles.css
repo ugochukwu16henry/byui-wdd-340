@@ -95,3 +95,17 @@ main h1 {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* Footer */
+.site-footer {
+  text-align: center;
+  padding: 1rem;
+  border-top: 2px solid #000;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.site-footer p {
+  margin: 0.2rem 0;
+}
