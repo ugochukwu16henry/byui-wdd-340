@@ -11,7 +11,8 @@ const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const path = require("path")   // ✅ FIX: import path
 const app = express()
-const static = require("./routes/static")
+const static = require("./routes")
+const baseController = require("./controllers/baseController")
 
 /* ***********************
  * View Engine and Templates
