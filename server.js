@@ -14,6 +14,7 @@ const app = express()
 const static = require("./routes")
 const routes = require("./routes");
 const baseController = require("./controllers/baseController")
+const inventoryRoute = require("./routes/inventoryRoute");
 
 /* ***********************
  * View Engine and Templates
@@ -27,8 +28,9 @@ app.set("layout", "./layouts/layout") // not at views root
  * Routes
  *************************/
 app.use(static)
-
+app.use("/inv", inventoryRoute);
 // Index
+
 app.get("/", function (req, res) {
   res.render("index", { title: "Home" })
 })
