@@ -1,11 +1,6 @@
 // I Created Util object if it doesn't exist
 const Util = {};
 
-// Then add your functions to it
-Util.buildClassificationGrid = async function (data) {
-  // your function code here
-};
-
 const { Pool } = require("pg");
 require("dotenv").config();
 
@@ -34,6 +29,7 @@ module.exports = {
   getNav,
   pool,
   query: (text, params) => pool.query(text, params),
+  Util, // ← Add this line to export the Util object
 };
 
 /* **************************************
