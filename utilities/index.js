@@ -1,34 +1,24 @@
-// In utilities/index.js
-const { Pool } = require("pg");
-require("dotenv").config();
+const { Pool } = require('pg');
+require('dotenv').config();
 
-// Database connection
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl:
-    process.env.NODE_ENV === "production"
-      ? { rejectUnauthorized: false }
-      : false,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
 });
 
-// Utility functions
+// Get navigation data
+async function getNav() {
+  try {
+	const data = await pool.query('SELECT * FROM public.classification ORDER BY classification_name');
+	return data.rows;
+  } catch (error) {
+	console.error('getNav error: ' + error);
+	return [];
+  }
+}
+
 module.exports = {
-  // Database utilities
+  getNav,
   pool,
-  query: (text, params) => pool.query(text, params),
-
-  // Validation utilities
-  validateInput: (input) => {
-    // Basic validation logic
-    return input && input.trim().length > 0;
-  },
-
-  // Error handling
-  handleError: (res, error, message = "An error occurred") => {
-    console.error(error);
-    res.status(500).render("errors/error", {
-      title: "Error",
-      message: message,
-    });
-  },
+  query: (text, params) => pool.query(text, params)
 };
