@@ -18,4 +18,5 @@ invCont.buildByClassificationId = async function (req, res, next) {
     grid,
   });
 };
-pnpm
+
+ module.exports = invCont;
