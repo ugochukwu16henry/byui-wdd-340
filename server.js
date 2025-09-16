@@ -12,7 +12,7 @@ const env = require("dotenv").config()
 const path = require("path")   // ✅ FIX: import path
 const app = express()
 const static = require("./routes")
-
+const routes = require("./routes");
 const baseController = require("./controllers/baseController")
 
 /* ***********************
