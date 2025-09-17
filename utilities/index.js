@@ -12,31 +12,43 @@ const pool = new Pool({
       : false,
 });
 
-// Get navigation data
+// Get navigation data - REPLACE THIS SECTION
 async function getNav() {
+  let client;
   try {
-    const data = await pool.query(
+    client = await pool.connect();
+    const data = await client.query(
       "SELECT * FROM public.classification ORDER BY classification_name"
     );
     return data.rows;
   } catch (error) {
-    console.error("getNav error: " + error);
-    return [];
+    console.error("getNav error: " + error.message);
+    // Return static fallback data
+    return [
+      { classification_name: "Home", classification_id: 1, nav_link: "/" },
+      {
+        classification_name: "Inventory",
+        classification_id: 2,
+        nav_link: "/inventory",
+      },
+      {
+        classification_name: "About",
+        classification_id: 3,
+        nav_link: "/about",
+      },
+    ];
+  } finally {
+    if (client) {
+      client.release();
+    }
   }
 }
-
-module.exports = {
-  getNav,
-  pool,
-  query: (text, params) => pool.query(text, params),
-  Util, // ← Add this line to export the Util object
-};
 
 /* **************************************
  * Build the classification view HTML
  * ************************************ */
 Util.buildClassificationGrid = async function (data) {
-  let grid;
+  let grid = "";
   if (data.length > 0) {
     grid = '<ul id="inv-display">';
     data.forEach((vehicle) => {
@@ -83,4 +95,11 @@ Util.buildClassificationGrid = async function (data) {
     grid += '<p class="notice">Sorry, no matching vehicles could be found.</p>';
   }
   return grid;
+};
+
+module.exports = {
+  getNav,
+  pool,
+  query: (text, params) => pool.query(text, params),
+  Util,
 };
