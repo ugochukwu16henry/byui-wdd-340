@@ -35,6 +35,48 @@ app.get("/", function (req, res) {
   res.render("index", { title: "Home" })
 })
 
+// view engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+// static
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// mount routes
+app.use('/inventory', inventoryRouter);
+app.use('/', miscRouter);
+
+// ... other routers e.g., classifications, services, etc.
+// e.g., app.use('/classifications', require('./routes/classifications'));
+
+// 404 middleware
+app.use((req, res, next) => {
+  const err = new Error('Page Not Found');
+  err.status = 404;
+  next(err);
+});
+
+// error handling middleware (must have 4 args)
+app.use((err, req, res, next) => {
+  // default status
+  const status = err.status || 500;
+  res.status(status);
+
+  // log server side
+  if (status === 500) {
+    console.error(err.stack || err);
+  }
+
+  // render error view — pass error only when in dev
+  res.render('error', {
+    title: 'Error',
+    message: err.message,
+    status,
+    error: process.env.NODE_ENV === 'development' ? err : null
+  });
+});
 /* ***********************
 * Express Error Handler
 * Place after all other middleware

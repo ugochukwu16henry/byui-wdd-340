@@ -8,3 +8,14 @@
     <%# messages() %>
 
 <%- grid %>
+<!-- inside a loop: assume `car.inv_id` available -->
+<a href="/inventory/<%= car.inv_id %>">
+    <img src="<%= car.inv_thumbnail %>" alt="<%= car.inv_make %> <%= car.inv_model %> thumbnail">
+    <h3>
+        <%= car.inv_make %>
+            <%= car.inv_model %>
+    </h3>
+    <p>
+        <%= new Intl.NumberFormat('en-US', { style: 'currency' , currency: 'USD' }).format(car.inv_price) %>
+    </p>
+</a>
