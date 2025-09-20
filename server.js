@@ -44,6 +44,31 @@ app.get("/", (req, res) => {
 app.use("inventory", inventoryRouter);
 
 // app.use("/", miscRouter) // enable when miscRouter is defined
+// Custom page
+app.get("/custom", (req, res) => {
+  res.render("custom", { title: "Custom" })
+})
+
+// Sedan page
+app.get("/sedan", (req, res) => {
+  res.render("sedan", { title: "Sedan" })
+})
+
+// Sport page
+app.get("/sport", (req, res) => {
+  res.render("sport", { title: "Sport" })
+})
+
+// SUV page
+app.get("/suv", (req, res) => {
+  res.render("suv", { title: "SUV" })
+})
+
+// Truck page
+app.get("/truck", (req, res) => {
+  res.render("truck", { title: "Truck" })
+})
+
 
 /* ***********************
  * 404 Handler
