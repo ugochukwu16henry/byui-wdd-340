@@ -3,6 +3,10 @@ const utilities = require("../utilities/");
 const { buildVehicleDetailHTML } = require("../utilities/index"); // adjust the path/** */
 const inventoryModel = (req, res) => {
   res.send("Inventory Paged");
+};
+const buildInventory = (req, res) => {
+  res.send(" Inventory page works!");
+}
 const invCont = {};
 /**
  * GET /inventory/:inv_id
@@ -56,9 +60,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
 
 module.exports = {
   invCont,
-  showInventoryDetail,
+  showInventoryDetail, buildInventory,
+  // Add buildInventory here if it exists and should be exported
+  // buildInventory
 };
-
-module.exports = {
-  buildInventory
-}
