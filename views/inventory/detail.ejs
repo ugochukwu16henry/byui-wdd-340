@@ -1,0 +1,55 @@
+<!-- views/inventory/detail.ejs -->
+<%- include('../partials/head', { title: title }) %>
+    <%- include('../partials/header') %>
+
+        <main class="container">
+            <nav aria-label="Breadcrumb">
+                <ul class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/inventory">Inventory</a></li>
+                    <li aria-current="page">
+                        <%= vehicle.inv_make %>
+                            <%= vehicle.inv_model %>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Option A: render HTML built by utility (unescaped) -->
+            <section id="vehicle-detail">
+                <%- vehicleHTML %>
+            </section>
+
+            <!-- If you prefer Option B: build with EJS (comment or delete the above) -->
+            <% /* <section id="vehicle-detail">
+                <article class="vehicle-detail">
+                    <h1>
+                        <%= vehicle.inv_make %>
+                            <%= vehicle.inv_model %> <span>(<%= vehicle.inv_year %>)</span>
+                    </h1>
+                    <div class="grid">
+                        <div class="image">
+                            <img src="<%= vehicle.inv_image %>" alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+                        </div>
+                        <div class="info">
+                            <p class="price">
+                                <%= new Intl.NumberFormat('en-US', { style: 'currency' , currency: 'USD'
+                                    }).format(vehicle.inv_price) %>
+                            </p>
+                            <p class="miles">
+                                <%= new Intl.NumberFormat('en-US').format(vehicle.inv_miles) %> miles
+                            </p>
+                            <p><strong>Color:</strong>
+                                <%= vehicle.inv_color %>
+                            </p>
+                            <p>
+                                <%= vehicle.inv_description %>
+                            </p>
+                        </div>
+                    </div>
+                </article>
+                </section>
+                */ %>
+
+        </main>
+
+        <%- include('../partials/footer') %>
