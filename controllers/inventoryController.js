@@ -1,5 +1,5 @@
 const invModel = require("../models/inventory-model");
-const utilities = require("../utilities/"); // for nav builder
+const utilities = require("../utilities"); // for nav builder
 
 /* Build inventory by classification */
 async function buildByClassificationId(req, res, next) {
