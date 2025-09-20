@@ -1,31 +1,20 @@
-const pool = require("../database/");
+const pool = require("../database"); // adjust path if needed
 
+/* Get all inventory items by classification_id */
 async function getInventoryByClassificationId(classification_id) {
   try {
-    const result = await pool.query(
-      `SELECT * 
-       FROM inventory 
-       JOIN classification 
-       ON inventory.classification_id = classification.classification_id
-       WHERE inventory.classification_id = $1`,
-      [classification_id]
-    );
-    return result.rows;
+    const sql = `
+      SELECT * 
+      FROM inventory 
+      WHERE classification_id = $1
+      ORDER BY inv_make, inv_model
+    `;
+    const data = await pool.query(sql, [classification_id]);
+    return data.rows;
   } catch (error) {
-    console.error("DB Error:", error);
+    console.error("getInventoryByClassificationId error", error);
+    throw error;
   }
 }
 
-async function getInventoryDetailById(inv_id) {
-  try {
-    const result = await pool.query(
-      `SELECT * FROM inventory WHERE inv_id = $1`,
-      [inv_id]
-    );
-    return result.rows[0];
-  } catch (error) {
-    console.error("DB Error:", error);
-  }
-}
-
-module.exports = { getInventoryByClassificationId, getInventoryDetailById };
+module.exports = { getInventoryByClassificationId };

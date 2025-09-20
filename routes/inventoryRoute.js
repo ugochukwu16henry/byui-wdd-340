@@ -1,11 +1,8 @@
 const express = require("express");
-const router = express.Router();
-const invController = require("../controllers/invController");
+const router = new express.Router();
+const invController = require("../controllers/inventoryController");
 
-// Route to show cars by classification
+// Route for classification view
 router.get("/type/:classificationId", invController.buildByClassificationId);
-
-// Route to show individual car details
-router.get("/detail/:invId", invController.buildDetailById);
 
 module.exports = router;

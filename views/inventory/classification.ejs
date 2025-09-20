@@ -1,8 +1,24 @@
-<%- include("../partials/header") %>
+<%- include('../partials/header') %>
+
     <h1>
         <%= title %>
     </h1>
-    <div class="grid">
-        <%- grid %>
+
+    <div class="vehicle-grid">
+        <% vehicles.forEach(car=> { %>
+            <div class="vehicle-card">
+                <img src="<%= car.inv_thumbnail %>" alt="<%= car.inv_make %> <%= car.inv_model %>">
+                <h2>
+                    <%= car.inv_make %>
+                        <%= car.inv_model %> (<%= car.inv_year %>)
+                </h2>
+                <p>Price: $<%= car.inv_price.toLocaleString() %>
+                </p>
+                <p>Miles: <%= car.inv_miles.toLocaleString() %>
+                </p>
+                <a href="/inventory/detail/<%= car.inv_id %>">View Details</a>
+            </div>
+            <% }) %>
     </div>
-    <%- include("../partials/footer") %>
+
+    <%- include('../partials/footer') %>

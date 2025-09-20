@@ -1,30 +1,31 @@
 const invModel = require("../models/inventory-model");
-const utilities = require("../utilities/");
+const utilities = require("../utilities/"); // for nav builder
 
+/* Build inventory by classification */
 async function buildByClassificationId(req, res, next) {
-  const classificationId = req.params.classificationId;
-  const data = await invModel.getInventoryByClassificationId(classificationId);
-  const grid = await utilities.buildClassificationGrid(data);
-  let nav = await utilities.getNav();
-  const className =
-    data.length > 0 ? data[0].classification_name : "No Cars Found";
+  try {
+    const classification_id = req.params.classificationId;
+    const data = await invModel.getInventoryByClassificationId(
+      classification_id
+    );
+    let nav = await utilities.getNav();
 
-  res.render("inventory/classification", {
-    title: className + " Vehicles",
-    nav,
-    grid,
-  });
+    if (data.length === 0) {
+      return res.status(404).render("errors/error", {
+        title: "Not Found",
+        message: "No vehicles found for this classification.",
+        nav,
+      });
+    }
+
+    res.render("inventory/classification", {
+      title: data[0].classification_name + " Vehicles",
+      nav,
+      vehicles: data,
+    });
+  } catch (err) {
+    next(err);
+  }
 }
 
-async function buildDetailById(req, res, next) {
-  const invId = req.params.invId;
-  const data = await invModel.getInventoryDetailById(invId);
-  let nav = await utilities.getNav();
-  res.render("inventory/detail", {
-    title: `${data.inv_make} ${data.inv_model}`,
-    nav,
-    car: data,
-  });
-}
-
-module.exports = { buildByClassificationId, buildDetailById };
+module.exports = { buildByClassificationId };
