@@ -1,3 +1,5 @@
+const Intl = global.Intl;
+
 // I Created Util object if it doesn't exist
 const Util = {};
 
@@ -11,6 +13,55 @@ const pool = new Pool({
       ? { rejectUnauthorized: false }
       : false,
 });
+/**
+ * Format number as USD currency (e.g. $25,000)
+ */
+function formatUSD(amount) {
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+}
+
+/**
+ * Format integer with commas for miles
+ */
+function formatNumber(num) {
+  return new Intl.NumberFormat('en-US').format(num);
+}
+
+/**
+ * Takes vehicle object and returns HTML string for detail content
+ * @param {Object} vehicle
+ * @returns {string}
+ */
+function buildVehicleDetailHTML(vehicle) {
+  if (!vehicle) return '<p>Vehicle not found.</p>';
+
+  const price = formatUSD(vehicle.inv_price);
+  const miles = formatNumber(vehicle.inv_miles);
+
+  // Use the full image (inv_image) per requirement
+  return `
+    <article class="vehicle-detail">
+      <h1 class="sr-only">${vehicle.inv_make} ${vehicle.inv_model} ${vehicle.inv_year}</h1>
+      <div class="vehicle-detail__grid">
+        <div class="vehicle-detail__image">
+          <img src="${vehicle.inv_image}" alt="${vehicle.inv_make} ${vehicle.inv_model}" loading="lazy" />
+        </div>
+        <div class="vehicle-detail__info">
+          <h2>${vehicle.inv_make} ${vehicle.inv_model} <span class="muted">(${vehicle.inv_year})</span></h2>
+          <p class="price">${price}</p>
+          <ul class="meta">
+            <li><strong>Color:</strong> ${vehicle.inv_color}</li>
+            <li><strong>Mileage:</strong> ${miles} miles</li>
+          </ul>
+          <div class="description">
+            <h3>Overview</h3>
+            <p>${vehicle.inv_description}</p>
+          </div>
+        </div>
+      </div>
+    </article>
+  `;
+}
 
 // Get navigation data - REPLACE THIS SECTION
 async function getNav() {
@@ -102,4 +153,7 @@ module.exports = {
   pool,
   query: (text, params) => pool.query(text, params),
   Util,
+  buildVehicleDetailHTML,
+  formatUSD,
+  formatNumber,
 };
