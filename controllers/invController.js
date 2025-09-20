@@ -1,7 +1,8 @@
 const invModel = require("../models/inventory-model");
 const utilities = require("../utilities/");
 const { buildVehicleDetailHTML } = require("../utilities/index"); // adjust the path/** */
-
+const inventoryModel = (req, res) => {
+  res.send("Inventory Paged");
 const invCont = {};
 /**
  * GET /inventory/:inv_id
@@ -57,3 +58,7 @@ module.exports = {
   invCont,
   showInventoryDetail,
 };
+
+module.exports = {
+  buildInventory
+}
