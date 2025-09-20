@@ -13,6 +13,7 @@ const path = require("path");
 // Routers
 const baseController = require("./controllers/baseController");
 const inventoryRouter = require("./routes/inventoryRoute");
+app.use("/inv", inventoryRouter)
 // If you have a misc router, uncomment the next line and make sure the file exists
 // const miscRouter = require("./routes/miscRoute")
 
