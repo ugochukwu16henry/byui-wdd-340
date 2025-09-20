@@ -1,8 +1,11 @@
 <%- include("../partials/header") %>
-
     <h1>
-        <%= title %>
+        <%= car.inv_make %>
+            <%= car.inv_model %>
     </h1>
-    <%- detail %>
-
-        <%- include("../partials/footer") %>
+    <img src="<%= car.inv_image %>" alt="<%= car.inv_make %> <%= car.inv_model %>">
+    <p>Price: $<%= car.inv_price %>
+    </p>
+    <p>Description: <%= car.inv_description %>
+    </p>
+    <%- include("../partials/footer") %>
