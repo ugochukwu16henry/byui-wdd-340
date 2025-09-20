@@ -42,6 +42,7 @@ app.get("/", (req, res) => {
 
 // Routers
 app.use("/inventory", inventoryRouter);
+app.use("/inv", inventoryRouter);
 // app.use("/", miscRouter) // enable when miscRouter is defined
 
 /* ***********************
