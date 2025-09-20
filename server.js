@@ -41,8 +41,8 @@ app.get("/", (req, res) => {
 });
 
 // Routers
+app.use("inventory", inventoryRouter);
 
-app.use("/inv", inventoryRouter);
 // app.use("/", miscRouter) // enable when miscRouter is defined
 
 /* ***********************
@@ -76,9 +76,26 @@ app.use((err, req, res, next) => {
 /* ***********************
  * Server Listener
  *************************/
-const port = process.env.PORT || 3000;
-const host = process.env.HOST || "localhost";
+/* ***********************
+ * Local Server Information
+ *************************/
+const port = process.env.PORT || 3000
+const host = process.env.HOST || "localhost"
 
+/* ***********************
+ * Log statement to confirm server operation
+ *************************/
 app.listen(port, () => {
-  console.log(`App listening on ${host}:${port}`);
-});
+  console.log(`✅ App running at: http://${host}:${port}`)
+}).on("error", (err) => {
+  if (err.code === "EADDRINUSE") {
+    console.error(`❌ Port ${port} is already in use. Trying a new one...`)
+    const newPort = port + 1
+    app.listen(newPort, () => {
+      console.log(`✅ App now running at: http://${host}:${newPort}`)
+    })
+  } else {
+    console.error("Server error:", err)
+  }
+})
+
