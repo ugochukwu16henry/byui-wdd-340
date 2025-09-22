@@ -6,9 +6,11 @@ let pool;
 if (process.env.NODE_ENV === "development") {
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false, // needed for Render free Postgres
-    },
+    ssl: process.env.NODE_ENV === "production"
+      ? {
+          rejectUnauthorized: false, // needed for Render free Postgres
+        }
+      : undefined,
   });
 } else {
   pool = new Pool({
