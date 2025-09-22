@@ -1,5 +1,30 @@
+// utilities/index.js
+
+const utilities = {};
+
+// Build the nav
+utilities.getNav = async function () {
+  try {
+    return `
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/inv/type/1">Custom</a></li>
+          <li><a href="/inv/type/2">Sedan</a></li>
+          <li><a href="/inv/type/3">Sport</a></li>
+          <li><a href="/inv/type/4">SUV</a></li>
+          <li><a href="/inv/type/5">Truck</a></li>
+        </ul>
+      </nav>
+    `;
+  } catch (error) {
+    console.error("Error building nav:", error);
+    throw error;
+  }
+};
+
 // Build classification grid
-function buildClassificationGrid(data) {
+utilities.buildClassificationGrid = function (data) {
   let grid = '<ul id="inv-display">';
   data.forEach((vehicle) => {
     grid += `<li>
@@ -20,10 +45,10 @@ function buildClassificationGrid(data) {
   });
   grid += "</ul>";
   return grid;
-}
+};
 
 // Build vehicle detail page
-function buildVehicleDetail(vehicle) {
+utilities.buildVehicleDetail = function (vehicle) {
   return `
     <section class="vehicle-detail__grid">
       <div class="vehicle-detail__image">
@@ -44,6 +69,6 @@ function buildVehicleDetail(vehicle) {
       </div>
     </section>
   `;
-}
+};
 
-module.exports = { buildClassificationGrid, buildVehicleDetail };
+module.exports = utilities;
