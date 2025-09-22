@@ -1,11 +1,36 @@
 <%- include("../partials/header") %>
-    <h1>
-        <%= car.inv_make %>
-            <%= car.inv_model %>
-    </h1>
-    <img src="<%= car.inv_image %>" alt="<%= car.inv_make %> <%= car.inv_model %>">
-    <p>Price: $<%= car.inv_price %>
-    </p>
-    <p>Description: <%= car.inv_description %>
-    </p>
+
+    <main id="wrapper">
+        <h1>
+            <%= vehicle.inv_make %>
+                <%= vehicle.inv_model %>
+        </h1>
+
+        <section class="vehicle-detail__grid">
+            <!-- Image -->
+            <div class="vehicle-detail__image">
+                <img src="<%= vehicle.inv_image %>" alt="Image of <%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+            </div>
+
+            <!-- Info -->
+            <div class="vehicle-detail__info">
+                <h2>
+                    <%= vehicle.inv_make %>
+                        <%= vehicle.inv_model %> (<%= vehicle.inv_year %>)
+                </h2>
+                <p class="price">$<%= new Intl.NumberFormat().format(vehicle.inv_price) %>
+                </p>
+                <p><strong>Mileage:</strong>
+                    <%= new Intl.NumberFormat().format(vehicle.inv_miles) %> miles
+                </p>
+                <p><strong>Color:</strong>
+                    <%= vehicle.inv_color %>
+                </p>
+                <p><strong>Description:</strong>
+                    <%= vehicle.inv_description %>
+                </p>
+            </div>
+        </section>
+    </main>
+
     <%- include("../partials/footer") %>
