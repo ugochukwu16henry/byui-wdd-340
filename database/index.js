@@ -1,22 +1,12 @@
 const { Pool } = require("pg");
 require("dotenv").config();
 
-let pool;
+const isProduction = process.env.NODE_ENV === "production";
 
-if (process.env.NODE_ENV === "development") {
-  pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: process.env.NODE_ENV === "production"
-      ? {
-          rejectUnauthorized: false, // needed for Render free Postgres
-        }
-      : undefined,
-  });
-} else {
-  pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-  });
-}
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: isProduction ? { rejectUnauthorized: false } : false,
+});
 
 module.exports = {
   async query(text, params) {
