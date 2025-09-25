@@ -3,6 +3,34 @@ const utilities = require("../utilities"); // Add slash to indicate folder
 
 const invController = {};
 
+async function buildByClassificationId(req, res, next) {
+  try {
+    const classification_id = req.params.classificationId;
+    const data = await invModel.getInventoryByClassificationId(
+      classification_id
+    );
+
+    // Assuming your `getInventoryByClassificationId` returns `null` or an empty array if nothing is found.
+    if (!data || data.length === 0) {
+      res.render("errors/error", {
+        status: 404,
+        message: "No inventory items found for this classification.",
+        title: "Error",
+      });
+    } else {
+      // ... render your inventory view
+    }
+  } catch (error) {
+    console.error("Error in buildByClassificationId:", error);
+    res.render("errors/error", {
+      status: 500,
+      message: "A server error occurred.",
+      title: "Error",
+    });
+  }
+}
+
+
 /* ****************************************
  *  Build inventory by classification view
  * **************************************** */
