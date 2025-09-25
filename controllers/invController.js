@@ -39,12 +39,13 @@ invController.buildByClassificationId = async function (req, res, next) {
   const data = await invModel.getInventoryByClassificationId(classification_id);
   let nav = await utilities.getNav();
 
+  // invController.js
+  // ... inside buildByClassificationId function
   if (data.length === 0) {
-    return res.status(404).render("errors/error", {
-      // Path changed to match common view structure
-      title: "Not Found",
-      message: "No vehicles found for this classification.",
-      nav,
+    res.render("errors/error", {
+      status: 404, // Status code for "Not Found"
+      message: "No inventory items found for this classification.",
+      title: "Error", // Assuming your layout needs a title
     });
   }
 
