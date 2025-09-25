@@ -2,26 +2,13 @@ const { Pool } = require("pg");
 // dotenv should be configured in server.js, so this is not needed here
 // require("dotenv").config();
 
-let pool;
-
-/* ***************
- * Connection Pool
- * SSL Object needed for local testing of app
- * But will cause problems in production environment
- * if-else determines which to use
- * *************** */
-if (process.env.NODE_ENV === "development") {
-  pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL, // Your database connection string
     ssl: {
-      rejectUnauthorized: false,
-    },
-  });
-} else {
-  pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-  });
-}
+        rejectUnauthorized: false // This tells the pg library to accept the self-signed certificate
+    }
+});
+
 
 // Export a single object with a query function
 module.exports = {
