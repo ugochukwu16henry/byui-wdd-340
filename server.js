@@ -6,11 +6,9 @@ require("dotenv").config();
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 const app = express();
-
-// Controllers & Routes
 const baseController = require("./controllers/baseController");
 const inventoryRoutes = require("./routes/inventory");
-const intentionalErrorRoute = require("./routes/intentional-error"); // <-- Must export a router
+const intentionalErrorRoute = require("./routes/intentional-error");
 const utilities = require("./utilities/");
 
 const PORT = process.env.PORT || 5000;
@@ -20,26 +18,22 @@ app.set("view engine", "ejs");
 app.use(expressLayouts);
 app.set("layout", "./layouts/layout"); // Default layout view
 
-// Middleware to parse requests
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Static assets
+// Tell the app to use the static assets from the public folder
 app.use(express.static("public"));
 
+// Routes
 // Home route
 app.get("/", baseController.buildHome);
-
 // Inventory routes
 app.use("/inv", inventoryRoutes);
+// Intentional error route
+app.use(intentionalErrorRoute);
 
-// Intentional error route (prefix path for clarity)
-app.use("/error", intentionalErrorRoute);
-
-// Error handling middleware (must be last)
+// Error handling middleware
+// Error handling middleware should be the last app.use() in the stack
 app.use(utilities.handleErrors);
 
-// Start server
+// Start the server
 app.listen(PORT, () => {
-  console.log(`App listening on http://localhost:${PORT}`);
+  console.log(`app listening on localhost:${PORT}`);
 });
