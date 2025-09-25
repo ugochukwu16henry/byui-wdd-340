@@ -1,7 +1,7 @@
 const invModel = require("../models/inventory-model");
-const utilities = require("../utilities"); // Remove the extra declaration line
+const utilities = require("../utilities");
 
-const invController = {};
+const invController = {}; // Move the declaration to the top
 
 /* ****************************************
  *  Build inventory by classification view
@@ -47,7 +47,7 @@ invController.buildDetail = async function (req, res, next) {
     });
   }
 
-  const detail = utilities.buildVehicleDetail(vehicle);
+  const detail = await utilities.buildVehicleDetail(vehicle);
 
   res.render("inventory/detail", {
     title: `${vehicle.inv_make} ${vehicle.inv_model}`,

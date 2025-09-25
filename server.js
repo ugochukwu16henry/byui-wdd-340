@@ -5,6 +5,21 @@ const expressLayouts = require("express-ejs-layouts");
 const app = express();
 const staticRoutes = require("./routes/static"); // Import the router
 const inventoryRoutes = require("./routes/inventory");
+// app.js
+// ... other requires and app setup
+const utilities = require("./utilities");
+
+// ... your routes
+app.use(utilities.handleErrors); // <-- This should be at the end, after all other routes
+
+// app.js
+// ... other requires
+const intentionalErrorRoute = require("./routes/intentional-error");
+
+// ... your other routes
+app.use(intentionalErrorRoute);
+app.use(utilities.handleErrors);
+
 
 const PORT = process.env.PORT || 5000;
 

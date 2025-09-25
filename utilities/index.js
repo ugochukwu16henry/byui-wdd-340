@@ -1,74 +1,41 @@
 // utilities/index.js
-
-const utilities = {};
-
-// Build the nav
-utilities.getNav = async function () {
-  try {
-    return `
-      <nav>
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/inv/type/1">Custom</a></li>
-          <li><a href="/inv/type/2">Sedan</a></li>
-          <li><a href="/inv/type/3">Sport</a></li>
-          <li><a href="/inv/type/4">SUV</a></li>
-          <li><a href="/inv/type/5">Truck</a></li>
-        </ul>
-      </nav>
-    `;
-  } catch (error) {
-    console.error("Error building nav:", error);
-    throw error;
+async function buildClassificationGrid(data) {
+  let grid;
+  if (data.length > 0) {
+    grid = '<ul id="inv-display">';
+    data.forEach((vehicle) => {
+      grid += "<li>";
+      grid += `<a href="/inventory/detail/${vehicle.inv_id}" title="View details for ${vehicle.inv_make} ${vehicle.inv_model}">`;
+      grid += `<img src="${vehicle.inv_thumbnail}" alt="${vehicle.inv_make} ${vehicle.inv_model} on-screen">`;
+      grid += "</a>";
+      // ... rest of the list item
+      grid += "</li>";
+    });
+    grid += "</ul>";
+  } else {
+    grid = '<p class="notice">Sorry, no matching vehicles could be found.</p>';
   }
-};
-
-// Build classification grid
-utilities.buildClassificationGrid = function (data) {
-  let grid = '<ul id="inv-display">';
-  data.forEach((vehicle) => {
-    grid += `<li>
-      <a href="/inv/detail/${vehicle.inv_id}" title="View ${vehicle.inv_make} ${
-      vehicle.inv_model
-    }">
-        <img src="${vehicle.inv_thumbnail}" alt="Image of ${vehicle.inv_make} ${
-      vehicle.inv_model
-    }">
-      </a>
-      <div class="namePrice">
-        <h2><a href="/inv/detail/${vehicle.inv_id}">${vehicle.inv_make} ${
-      vehicle.inv_model
-    }</a></h2>
-        <span>$${new Intl.NumberFormat().format(vehicle.inv_price)}</span>
-      </div>
-    </li>`;
-  });
-  grid += "</ul>";
   return grid;
+}
+
+// utilities/index.js
+// ... other functions
+
+/* ****************************************
+* Express Error Handling Middleware
+* *************************************** */
+const handleErrors = async (err, req, res, next) => {
+    console.error(err.stack); // Log the error for debugging
+    res.status(500).render('errors/error', {
+      title: 'Server Error',
+      message: 'A server error occurred. Please try again later.',
+      status: 500,
+      nav: await getNav(), // Make sure your layout can handle `nav`
+    });
+  };
+
+module.exports = {
+    // ... other utility functions
+    handleErrors,
 };
 
-// Build vehicle detail page
-utilities.buildVehicleDetail = function (vehicle) {
-  return `
-    <section class="vehicle-detail__grid">
-      <div class="vehicle-detail__image">
-        <img src="${vehicle.inv_image}" alt="Image of ${vehicle.inv_make} ${
-    vehicle.inv_model
-  }">
-      </div>
-      <div class="vehicle-detail__info">
-        <h2>${vehicle.inv_make} ${vehicle.inv_model} (${vehicle.inv_year})</h2>
-        <p class="price">$${new Intl.NumberFormat().format(
-          vehicle.inv_price
-        )}</p>
-        <p><strong>Mileage:</strong> ${new Intl.NumberFormat().format(
-          vehicle.inv_miles
-        )} miles</p>
-        <p><strong>Color:</strong> ${vehicle.inv_color}</p>
-        <p>${vehicle.inv_description}</p>
-      </div>
-    </section>
-  `;
-};
-
-module.exports = utilities;
