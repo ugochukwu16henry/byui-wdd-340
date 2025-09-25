@@ -3,32 +3,93 @@ const utilities = require("../utilities"); // Add slash to indicate folder
 
 const invController = {};
 
-async function buildByClassificationId(req, res, next) {
-  try {
-    const classification_id = req.params.classificationId;
-    const data = await invModel.getInventoryByClassificationId(
-      classification_id
-    );
+// invController.jsconst invModel = require("../models/inventory-model");
+const utilities = require("../utilities");
 
-    // Assuming your `getInventoryByClassificationId` returns `null` or an empty array if nothing is found.
-    if (!data || data.length === 0) {
-      res.render("errors/error", {
-        status: 404,
-        message: "No inventory items found for this classification.",
-        title: "Error",
-      });
+const invController = {};
+
+/* ****************************************
+ *  Build inventory by classification view
+ * **************************************** */
+invController.buildByClassificationId = async function(req, res, next) {
+    const classification_id = req.params.classificationId;
+    const data = await invModel.getInventoryByClassificationId(classification_id);
+    let nav = await utilities.getNav();
+
+    if (data.length > 0) {
+        const grid = await utilities.buildClassificationGrid(data);
+        const className = data[0].classification_name;
+
+        res.render("inventory/classification", {
+            title: className + " Vehicles",
+            nav,
+            grid,
+        });
     } else {
-      // ... render your inventory view
+        // Handle the case where no inventory items are found
+        res.render("errors/error", {
+            title: "Not Found",
+            status: 404,
+            message: "No inventory items were found for this classification.",
+            nav, // Pass the nav variable to the error page
+        });
     }
-  } catch (error) {
-    console.error("Error in buildByClassificationId:", error);
-    res.render("errors/error", {
-      status: 500,
-      message: "A server error occurred.",
-      title: "Error",
+};
+
+/* ****************************************
+ *  Build detail view for a specific vehicle
+ * **************************************** */
+invController.buildDetail = async function (req, res, next) {
+    const inv_id = req.params.inv_id;
+    const vehicle = await invModel.getVehicleById(inv_id);
+    let nav = await utilities.getNav();
+
+    if (!vehicle) {
+        return res.status(404).render("errors/error", {
+            title: "Vehicle Not Found",
+            message: "Sorry, we could not find that vehicle.",
+            nav,
+        });
+    }
+
+    const detail = utilities.buildVehicleDetail(vehicle);
+
+    res.render("inventory/detail", {
+        title: `${vehicle.inv_make} ${vehicle.inv_model}`,
+        nav,
+        detail,
     });
-  }
-}
+};
+
+module.exports = invController;
+
+
+invController.buildByClassificationId = async function(req, res, next) {
+    const classification_id = req.params.classificationId;
+    const data = await invModel.getInventoryByClassificationId(classification_id);
+
+    // Add this conditional check
+    if (data.length > 0) {
+        const grid = await utilities.buildClassificationGrid(data);
+        let nav = await utilities.getNav();
+        const className = data[0].classification_name;
+
+        res.render("inventory/classification", {
+            title: className + " Vehicles",
+            nav,
+            grid
+        });
+    } else {
+        // Handle the case where no inventory items are found
+        let nav = await utilities.getNav();
+        res.render("errors/error", {
+            title: "Not Found",
+            status: 404,
+            message: "No inventory items were found for this classification.",
+            nav // Pass the nav variable to the error page
+        });
+    }
+};
 
 
 /* ****************************************
