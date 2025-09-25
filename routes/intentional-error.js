@@ -2,12 +2,9 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/trigger-500", (req, res, next) => {
-  try {
-    throw new Error("This is an intentional 500 server error.");
-  } catch (err) {
-    next(err); // Pass the error to the middleware
-  }
+// A route to intentionally trigger an error
+router.get("/", (req, res, next) => {
+  next(new Error("Intentional error for testing purposes"));
 });
 
 module.exports = router;
