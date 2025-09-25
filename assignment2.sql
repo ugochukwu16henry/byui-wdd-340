@@ -1,6 +1,6 @@
 -- Task 1: Insert Tony Stark and return the new primary key
 INSERT INTO account (account_firstname, account_lastname, account_email, account_password)
-VALUES ('Tony', 'Stark', 'tony@starkent.com', 'Iam1ronM@n')
+VALUES ('Henry', 'ugochukwu', 'ugochukwuhenry16@gmail.com', '1995Mobuchi@')
 RETURNING account_id;
 
 -- Task 2: Set account_type = 'Admin' for Tony (use the primary key)
