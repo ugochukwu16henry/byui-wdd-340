@@ -1,39 +1,104 @@
-// server.js
+const express = require("express")
+const expressLayouts = require("express-ejs-layouts")
+require("dotenv").config()
+const path = require("path")
+const fs = require("fs")
+const session = require("express-session")
+const pool = require('./database/')
+const app = express()
 
-// This MUST be the first line of code in this file
-require("dotenv").config();
+// Routes & Controllers
+const static = require("./routes/static")
+const baseController = require("./controllers/baseController")
+const inventoryRoute = require("./routes/inventoryRoute")
+const accountRoute = require("./routes/accountRoute")
+const utilities = require("./utilities")
 
-const express = require("express");
-const expressLayouts = require("express-ejs-layouts");
-const app = express();
-const baseController = require("./controllers/baseController");
-const inventoryRoutes = require("./routes/inventory");
-const intentionalErrorRoute = require("./routes/intentional-error");
-const utilities = require("./utilities/");
+/* ***********************
+ * Middleware
+ ************************/
+app.use(session({
+  store: new (require('connect-pg-simple')(session))({
+    createTableIfMissing: true,
+    pool,
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  name: 'sessionId',
+}))
 
-const PORT = process.env.PORT || 5000;
+// Flash Messages Middleware
+app.use(require('connect-flash')())
+app.use((req, res, next) => {
+  res.locals.messages = require('express-messages')(req, res)
+  next()
+})
 
-// View Engine and Layouts setup
-app.set("view engine", "ejs");
-app.use(expressLayouts);
-app.set("layout", "./layouts/layout"); // Default layout view
+// Parse URL-encoded and JSON bodies (for form submissions)
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 
-// Tell the app to use the static assets from the public folder
-app.use(express.static("public"));
+// View Engine
+app.set("view engine", "ejs")
+app.use(expressLayouts)
+app.set("layout", "./layouts/layout")
 
-// Routes
-// Home route
-app.get("/", baseController.buildHome);
-// Inventory routes
-app.use("/inv", inventoryRoutes);
-// Intentional error route
-app.use(intentionalErrorRoute);
+// Static files
+app.use(static)
 
-// Error handling middleware
-// Error handling middleware should be the last app.use() in the stack
-app.use(utilities.handleErrors);
+/* ***********************
+ * Routes
+ ************************/
+app.get("/", utilities.handleErrors(baseController.buildHome))
+app.use("/inv", inventoryRoute)
+app.use("/account", accountRoute)
 
-// Start the server
+/* ***********************
+ * 404 Handler - must be last route
+ *************************/
+app.use((req, res, next) => {
+  next({ status: 404, message: "Sorry, we appear to have lost that page." })
+})
+
+/* ***********************
+ * Express Error Handler
+ *************************/
+app.use(async (err, req, res, next) => {
+  const nav = await utilities.getNav()
+  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+
+  const message =
+    err.status === 404
+      ? err.message
+      : "Oh no! There was a crash. Maybe try a different route?"
+
+  const errorViewPath = path.join(__dirname, "views", "errors", "error.ejs")
+  const viewExists = fs.existsSync(errorViewPath)
+
+  if (viewExists) {
+    res.status(err.status || 500).render("errors/error", {
+      title: err.status || "Server Error",
+      message,
+      nav,
+    })
+  } else {
+    res.status(err.status || 500).send(`
+      <h1>${err.status || "Server Error"}</h1>
+      <p>${message}</p>
+      <a href="/">Return Home</a>
+    `)
+  }
+})
+
+// Start server
+const PORT = process.env.PORT || 5500
 app.listen(PORT, () => {
-  console.log(`app listening on localhost:${PORT}`);
-});
+  console.log(`App listening on port ${PORT}`)
+})
+
+module.exports = app
+
+
+
+
