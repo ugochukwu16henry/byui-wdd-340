@@ -1,20 +1,28 @@
-<% /* C:\Users\user\Documents\cse340projects\byui-wdd-340\views\errors\error.ejs */ %>
+<!DOCTYPE html>
+<html lang="en">
 
-    <div id="wrapper">
-        <%- include('../partials/_header') %>
-            <%- nav %>
-                <main>
-                    <h1>
-                        <%= message || 'An error occurred' %>
-                    </h1>
-                    <p>Status: <%= status || 500 %>
-                    </p>
-                    <% if (error && error.stack) { %>
-                        <details>
-                            <summary>Error Details</summary>
-                            <pre><%= error.stack %></pre>
-                        </details>
-                        <% } %>
-                </main>
-                <%- include('../partials/_footer') %>
-    </div>
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+
+        h1 {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Oops! Something went wrong.</h1>
+    <p>
+        <%= message %>
+    </p>
+    <a href="/">Go back home</a>
+</body>
+
+</html>

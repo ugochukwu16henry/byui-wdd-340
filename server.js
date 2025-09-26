@@ -17,16 +17,12 @@ const utilities = require("./utilities")
 /* ***********************
  * Middleware
  ************************/
+// Add a secret
 app.use(session({
-  store: new (require('connect-pg-simple')(session))({
-    createTableIfMissing: true,
-    pool,
-  }),
-  secret: process.env.SESSION_SECRET,
-  resave: true,
-  saveUninitialized: true,
-  name: 'sessionId',
-}))
+  secret: process.env.SESSION_SECRET || 'a-fallback-secret-for-local-dev',
+  resave: false,
+  saveUninitialized: false,
+}));
 
 // Flash Messages Middleware
 app.use(require('connect-flash')())
