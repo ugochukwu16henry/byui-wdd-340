@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <main class="registration-page">
+        <h1>
+            <%= title %>
+        </h1>
+
+        <% if (messages) { %>
+            <div class="flash-message"><%- messages() %></div>
+            <% } %>
+
+                <% if (errors) { %>
+                    <ul class="notice">
+                        <% errors.array().forEach(error=> { %>
+                            <li>
+                                <%= error.msg %>
+                            </li>
+                            <% }) %>
+                    </ul>
+                    <% } %>
+
+                        <form action="/account/register" method="post" class="registration-form">
+                            <label for="account_firstname">First Name</label>
+                            <input type="text" id="account_firstname" name="account_firstname" required
+                                value="<%= account_firstname || '' %>">
+
+                            <label for="account_lastname">Last Name</label>
+                            <input type="text" id="account_lastname" name="account_lastname" required
+                                value="<%= account_lastname || '' %>">
+
+                            <label for="account_email">Email Address</label>
+                            <input type="email" id="account_email" name="account_email" required
+                                value="<%= account_email || '' %>">
+
+                            <label for="account_password">Password</label>
+                            <input type="password" id="account_password" name="account_password" required>
+                            <small>Password must be 12+ characters, include 1 capital letter, 1 number, and 1 special
+                                character.</small>
+
+                            <button type="button" onclick="togglePassword()">Show/Hide Password</button>
+                            <button type="submit">Register</button>
+                        </form>
+
+                        <p class="login-link">Already have an account? <a href="/account/login">Login here</a>.</p>
+    </main>
+
+    <script>
+        function togglePassword() {
+            const pwd = document.getElementById('account_password')
+            pwd.type = pwd.type === 'password' ? 'text' : 'password'
+        }
+    </script>
+</body>
+
+</html>
