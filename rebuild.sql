@@ -249,3 +249,17 @@ UPDATE inventory
 SET inv_image = REPLACE(inv_image, '/images/', '/images/vehicles/'),
     inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles/')
 WHERE inv_image LIKE '/images/%' OR inv_thumbnail LIKE '/images/%';
+
+-- To be used when the vehicles images are wrong
+UPDATE inventory
+SET inv_image = REPLACE(inv_image, '/vehicles/vehicles/vehicles/', '/vehicles/');
+
+UPDATE inventory
+SET inv_thumbnail = REPLACE(inv_thumbnail, '/vehicles/vehicles/vehicles/', '/vehicles/');
+
+-- to be used to see how the table looks after the updates
+SELECT inv_image,
+       REPLACE(inv_image, '/vehicles/vehicles/vehicles/', '/vehicles/') AS fixed_image,
+       inv_thumbnail,
+       REPLACE(inv_thumbnail, '/vehicles/vehicles/vehicles/', '/vehicles/') AS fixed_thumb
+FROM inventory;
