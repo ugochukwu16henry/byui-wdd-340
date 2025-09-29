@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+
+    <main class="inventory-management">
+        <h1 class="add">
+            <%= title %>
+        </h1>
+
+        <!-- Flash Message -->
+        <% if (message && message.length> 0) { %>
+            <div class="flash-message">
+                <%= message %>
+            </div>
+            <% } %>
+
+                <!-- Management Links -->
+                <div class="management-links">
+                    <p>
+                        <a href="/inv/add-classification">Add New Classification</a>
+                    </p>
+                    <p>
+                        <a href="/inv/add-inventory">Add New Vehicle</a>
+                    </p>
+                </div>
+    </main>
+</body>
+
+</html>

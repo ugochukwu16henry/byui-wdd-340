@@ -1,21 +1,23 @@
 <main>
-    <h1>Add Classification</h1>
+    <h1 class="add">Add New Classification</h1>
 
-    <% if (errors && errors.length) { %>
-        <ul class="errors">
-            <% errors.forEach(err=> { %>
+    <a href="/inv" class="back-button">← Back to Management</a>
+
+    <% if (errors && errors.length> 0) { %>
+        <ul class="flash-message">
+            <% errors.forEach(error=> { %>
                 <li>
-                    <%= err.msg %>
+                    <%= error %>
                 </li>
                 <% }) %>
         </ul>
         <% } %>
 
-            <form action="/inv/add-classification" method="post" novalidate>
-                <label for="classification_name">Classification name (no spaces or special characters):</label>
-                <input id="classification_name" name="classification_name" type="text" required pattern="[A-Za-z0-9]+"
-                    title="No spaces or special characters"
-                    value="<%= classification_name ? classification_name : '' %>" />
+            <form class="add-classification-form" action="/inv/add-classification" method="post">
+                <label for="classification_name">Classification Name</label>
+                <input type="text" name="classification_name" id="classification_name" required
+                    value="<%= classification_name %>">
+
                 <button type="submit">Add Classification</button>
             </form>
 </main>
