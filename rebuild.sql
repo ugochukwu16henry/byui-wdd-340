@@ -254,6 +254,7 @@ WHERE inv_image LIKE '/images/%' OR inv_thumbnail LIKE '/images/%';
 UPDATE inventory
 SET inv_image = REPLACE(inv_image, '/vehicles/vehicles/vehicles/', '/vehicles/');
 
+
 UPDATE inventory
 SET inv_thumbnail = REPLACE(inv_thumbnail, '/vehicles/vehicles/vehicles/', '/vehicles/');
 
