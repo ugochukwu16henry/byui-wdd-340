@@ -12,20 +12,18 @@
 
 <body>
 
+
     <main class="inventory-management">
         <h1 class="add">
             <%= title %>
         </h1>
 
-        <!-- Flash Message -->
-        <% if (message && message.length> 0) { %>
-            <div class="flash-message">
-                <%= message %>
-            </div>
-            <% } %>
+        <%# FIX: Use the EJS helper for messages %>
+            <%- messages() %>
 
-                <!-- Management Links -->
                 <div class="management-links">
+                    <h2>Management Tools</h2>
+                    <p>Use the links below to manage classifications and vehicle inventory.</p>
                     <p>
                         <a href="/inv/add-classification">Add New Classification</a>
                     </p>
@@ -33,7 +31,21 @@
                         <a href="/inv/add-inventory">Add New Vehicle</a>
                     </p>
                 </div>
+
+                <%# RESTORED: Section for the AJAX table and dropdown (requires classificationList) %>
+                    <h2>Manage Inventory</h2>
+                    <p>Select a classification from the list to see the items belonging to the classification.</p>
+
+                    <%- classificationList %>
+
+                        <table id="inventoryDisplay"></table>
+
+                        <noscript>JavaScript must be enabled to use this page.</noscript>
+
     </main>
+
+    <script src="/js/inventory.js"></script>
+
 </body>
 
 </html>
