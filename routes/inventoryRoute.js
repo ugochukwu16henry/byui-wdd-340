@@ -5,6 +5,7 @@ const utilities = require("../utilities/");
 const validate = require("../utilities/inventory-validation");
 
 // Route to build inventory management view
+// Secured: Requires login and Admin/Employee authorization
 router.get(
   "/",
   utilities.checkLogin,
@@ -20,11 +21,12 @@ router.get(
 
 // Route to get inventory item details (Public)
 router.get(
-  "/detail/:inv_id",
-  utilities.handleErrors(invController.buildDetailView)
+  "/detail/:invId",
+  utilities.handleErrors(invController.buildByInventoryId)
 );
 
 // Route to build add classification view
+// Secured: Requires login and Admin/Employee authorization
 router.get(
   "/add-classification",
   utilities.checkLogin,
@@ -33,6 +35,7 @@ router.get(
 );
 
 // Route to build add inventory view
+// Secured: Requires login and Admin/Employee authorization
 router.get(
   "/add-inventory",
   utilities.checkLogin,
@@ -41,14 +44,16 @@ router.get(
 );
 
 // Route to build edit inventory view
+// Secured: Requires login and Admin/Employee authorization
 router.get(
   "/edit/:inv_id",
   utilities.checkLogin,
   utilities.checkAuthorization,
-  utilities.handleErrors(invController.buildEditInventoryView)
+  utilities.handleErrors(invController.buildEditView)
 );
 
 // Route to update inventory data
+// Secured: Requires login and Admin/Employee authorization
 router.post(
   "/update/",
   utilities.checkLogin,
@@ -59,6 +64,7 @@ router.post(
 );
 
 // Route to build the delete confirmation view
+// Secured: Requires login and Admin/Employee authorization
 router.get(
   "/delete/:inv_id",
   utilities.checkLogin,
@@ -67,6 +73,7 @@ router.get(
 );
 
 // Route to handle the actual deletion of inventory data
+// Secured: Requires login and Admin/Employee authorization
 router.post(
   "/delete/",
   utilities.checkLogin,
