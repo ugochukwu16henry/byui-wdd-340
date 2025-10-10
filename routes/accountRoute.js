@@ -16,6 +16,23 @@ router.get(
   accountController.buildAccountManagement
 );
 
+// ===== Account Update Routes =====
+router.get(
+  "/update/:id",
+  utilities.checkJWTToken,
+  accountController.buildUpdateAccount
+);
+router.post(
+  "/update",
+  utilities.checkJWTToken,
+  accountController.updateAccountInfo
+);
+router.post(
+  "/updatePassword",
+  utilities.checkJWTToken,
+  accountController.updatePassword
+);
+
 // Logout
 router.get("/logout", accountController.logout);
 
