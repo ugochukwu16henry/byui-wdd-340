@@ -95,7 +95,7 @@ app.use(async (err, req, res, next) => {
 });
 
 // Start server
-const PORT = process.env.PORT || 5500;
+const PORT = process.env.PORT || 200;
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
 });
